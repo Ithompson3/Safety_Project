@@ -1,0 +1,46 @@
+﻿<!-- Authors:Micheal Vick, Ian Thompson; Supervisors: Zach Hakl; Date:05/19/2020-->
+<!--BEGIN Details.cshtml
+    ============================================================================-->
+@model WebApplication4.Models.Table_1
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Table</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.thing1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thing1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thing2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thing2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.thing3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.thing3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { ID = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+<!--END Details.cshtml-->

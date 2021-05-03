@@ -1,0 +1,62 @@
+﻿<!-- Authors:Micheal Vick, Ian Thompson; Supervisors: Zach Hakl; Date:05/19/2020
+    ================================================================================-->
+<!--robbed from Zahkl straight up
+    ==============================-->
+<!--Begin Attachments.cshtml
+    ================================================================================-->
+@model IEnumerable<FileInfo>
+@{
+    ViewBag.Title = "Attachments";
+}
+
+
+<h3>Forms</h3>
+<table width="100%">
+    <thead>
+        <tr>
+            <th width="80%"></th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (FileInfo file in Model)
+        {
+            <tr>
+                <th>
+                    @file.Name
+                </th>
+                <th>
+                    @Html.ActionLink("Download File", "DownloadFile", new { name = file.FullName.ToString() })
+                </th>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<form id="uploader">
+    <h4>Upload Files:</h4>
+    <input id="fileInput" type="file" multiple />
+    <input type="submit" valve="Upload file" />
+</form>
+<script type="text/javascript">
+    document.getElementById('uploader').onsubmit = function () {
+        var formdata = new FormData();//FormData object
+        var fileInput = document.getElementById('fileInput');
+        for (i = 0; i < fileInput.files.length; i++) {
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/tables/Upload');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert(xhr.responseText);
+                location.reload();
+            }
+        }
+
+        return false;
+    }
+</script>
+<!--End Attachments.cshtml-->

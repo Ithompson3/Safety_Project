@@ -1,0 +1,131 @@
+﻿<!-- Authors:Micheal Vick, Ian Thompson; Supervisors: Zach Hakl; Date:05/19/2020-->
+<!-- Begin Edit.cshtml
+    ====================================================================-->
+@model WebApplication4.Models.Table_1
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("Edit", "Tables", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Table</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Chemical_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Chemical_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Chemical_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Use_case, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Use_case, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Use_case, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+    <table style="width:50%" id="subtable1">
+        <thead>
+            <tr>
+                <th>length</th>
+                <th>width</th>
+                <th>height</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+    <input type="submit" class="btn btn-default" value="submit" />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            // Popup.dialog('close');
+                            // dataTable.ajax.reload();
+
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+                        }
+                        else {
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "error"
+                            });
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+    </script>
+    <script>
+        var subdataTable;
+
+        $(document).ready(function () {
+            $('#subtable1').DataTable(
+                {
+                    "ajax": {
+                        "url": "/Tables/GetSubTbl/" + @Model.Id,
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "length" },
+                        { "data": "width" },
+                        { "data": "height"},
+                        { "data": "submit"}
+
+                    ],
+                    "language": {
+                        "emptyTable": "No data found"
+                    }
+                });
+        });
+    </script>
+}
+<!--End Edit.cshtml-->

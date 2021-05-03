@@ -1,0 +1,54 @@
+﻿<!-- Authors:Micheal Vick, Ian Thompson; Supervisors: Zach Hakl; Date:05/19/2020-->
+<!--Begin Delete.cshtml
+    =============================================================================-->
+@model WebApplication4.Models.Table_1
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Table</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Chemical_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Chemical_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Use_case)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Use_case)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+<!--end delete.cshtml-->
